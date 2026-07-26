@@ -1,0 +1,30 @@
+# CustomEnchantments 配置文件
+# 语言文本请编辑 language/ 文件夹下的文件
+# 自定义附魔配置请编辑 enchantments.yml
+
+# 是否启用插件
+enabled: true
+
+# 原版附魔最大等级 (默认225)
+max-enchant-level: 225
+
+# 是否启用铁砧修改等级上限
+enable-anvil-max-level: true
+
+# 是否启用附魔台修改等级上限
+enable-enchanting-table-max-level: true
+
+# 是否在铁砧中允许合并超出原版等级的附魔书
+allow-combine-overlevel: true
+
+# 附魔书物品设置
+enchant-book-item:
+  material: ENCHANTED_BOOK
+  glow: true
+  custom-model-data: 0
+
+# 商店设置
+shop:
+  # 默认基础价格 (每个附魔的每级价格 = 基础价 * 等级)
+  # 可以在 enchantments.yml 中单个附魔配置里用 "price: 200" 覆盖
+  default-price: 1000

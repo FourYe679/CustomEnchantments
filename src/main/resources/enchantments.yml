@@ -1,0 +1,555 @@
+# 自定义附魔配置文件
+# 管理所有自定义附魔的属性、显示名称、描述、适用物品和冷却时间
+# price 字段可选，覆盖 shop.default-price (在 config.yml 中)
+
+# === 原有8个 ===
+enchantments:
+  tnt_burst:
+    enabled: true
+    display-name: "&cTNT 瞬爆"
+    max-level: 10
+    description:
+      - "&7弓射出点燃的TNT"
+      - "&7等级越高, TNT数量越多"
+    apply-to:
+      - BOW
+      - CROSSBOW
+    cooldown: 3
+
+  lightning_strike:
+    enabled: true
+    display-name: "&b闪电链"
+    max-level: 10
+    description:
+      - "&7击中时召唤闪电攻击目标"
+      - "&7等级越高, 闪电伤害越大"
+    apply-to:
+      - SWORD
+      - AXE
+      - BOW
+      - CROSSBOW
+    cooldown: 5
+
+  fire_storm:
+    enabled: true
+    display-name: "&6火焰风暴"
+    max-level: 10
+    description:
+      - "&7击中时范围着火"
+      - "&7等级越高, 范围越大"
+    apply-to:
+      - SWORD
+      - AXE
+      - BOW
+      - CROSSBOW
+    cooldown: 2
+
+  ice_freeze:
+    enabled: true
+    display-name: "&9冰冻"
+    max-level: 10
+    description:
+      - "&7击中时冻结目标"
+      - "&7等级越高, 冻结时间越长"
+    apply-to:
+      - SWORD
+      - AXE
+      - BOW
+      - CROSSBOW
+    cooldown: 3
+
+  life_steal:
+    enabled: true
+    display-name: "&c吸血"
+    max-level: 10
+    description:
+      - "&7击中时回复生命值"
+      - "&7等级越高, 回复越多"
+    apply-to:
+      - SWORD
+      - AXE
+      - BOW
+      - CROSSBOW
+    cooldown: 0
+
+  explosion:
+    enabled: true
+    display-name: "&5爆炸"
+    max-level: 10
+    description:
+      - "&7击中时产生爆炸"
+      - "&7等级越高, 爆炸范围越大"
+    apply-to:
+      - SWORD
+      - AXE
+      - BOW
+      - CROSSBOW
+    cooldown: 3
+
+  teleport_strike:
+    enabled: true
+    display-name: "&a传送打击"
+    max-level: 5
+    description:
+      - "&7击中时传送到目标附近"
+      - "&7等级越高, 传送距离越精确"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 5
+
+  magnetic:
+    enabled: true
+    display-name: "&e磁力"
+    max-level: 5
+    description:
+      - "&7击杀时自动拾取附近掉落物"
+      - "&7等级越高, 拾取范围越大"
+    apply-to:
+      - SWORD
+      - AXE
+      - PICKAXE
+    cooldown: 0
+
+  # === 近战武器 (12个) ===
+  poison_blade:
+    enabled: true
+    display-name: "&2剧毒之刃"
+    max-level: 10
+    description:
+      - "&7给目标施加中毒效果"
+      - "&7等级越高, 持续时间越长"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 2
+
+  wither_touch:
+    enabled: true
+    display-name: "&8凋零之触"
+    max-level: 10
+    description:
+      - "&7给目标施加凋零效果"
+      - "&7等级越高, 伤害越高"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 3
+
+  vampirism:
+    enabled: true
+    display-name: "&4吸血鬼"
+    max-level: 10
+    description:
+      - "&7击杀目标时大量回复生命"
+      - "&7等级越高, 回复越多"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 0
+
+  execute:
+    enabled: true
+    display-name: "&c处决"
+    max-level: 10
+    description:
+      - "&7目标血量低于30%时造成额外伤害"
+      - "&7等级越高, 额外伤害越高"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 2
+
+  cleave:
+    enabled: true
+    display-name: "&6横扫"
+    max-level: 10
+    description:
+      - "&7对目标周围敌人造成伤害"
+      - "&7等级越高, 伤害越高"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 3
+
+  thunder_slash:
+    enabled: true
+    display-name: "&e雷霆斩"
+    max-level: 10
+    description:
+      - "&7对周围敌人召唤闪电"
+      - "&7等级越高, 范围越大"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 5
+
+  bleed:
+    enabled: true
+    display-name: "&4流血"
+    max-level: 10
+    description:
+      - "&7给目标施加流血效果"
+      - "&7持续造成额外伤害"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 2
+
+  knockback_master:
+    enabled: true
+    display-name: "&7击退大师"
+    max-level: 10
+    description:
+      - "&7超强击退效果"
+      - "&7等级越高, 击退越远"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 1
+
+  crit_chance:
+    enabled: true
+    display-name: "&6暴击"
+    max-level: 10
+    description:
+      - "&7概率造成暴击伤害"
+      - "&7等级越高, 暴击概率和伤害越高"
+    apply-to:
+      - SWORD
+      - AXE
+      - BOW
+      - CROSSBOW
+    cooldown: 0
+
+  parry:
+    enabled: true
+    display-name: "&b格挡"
+    max-level: 10
+    description:
+      - "&7被攻击时概率获得抗性"
+      - "&7等级越高, 抗性越强"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 3
+
+  berserk:
+    enabled: true
+    display-name: "&c狂暴"
+    max-level: 10
+    description:
+      - "&7血量越低伤害越高"
+      - "&7等级越高, 伤害增幅越大"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 0
+
+  soul_reap:
+    enabled: true
+    display-name: "&5灵魂收割"
+    max-level: 10
+    description:
+      - "&7击杀目标时获得额外经验"
+      - "&7等级越高, 经验越多"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 0
+
+  # === 远程武器 (6个) ===
+  multishot_burst:
+    enabled: true
+    display-name: "&a多重射击"
+    max-level: 5
+    description:
+      - "&7射出多支箭矢"
+      - "&7等级越高, 箭矢越多"
+    apply-to:
+      - BOW
+      - CROSSBOW
+    cooldown: 4
+
+  homing_arrow:
+    enabled: true
+    display-name: "&d追踪箭"
+    max-level: 5
+    description:
+      - "&7箭矢自动追踪附近敌人"
+      - "&7等级越高, 追踪越强"
+    apply-to:
+      - BOW
+      - CROSSBOW
+    cooldown: 3
+
+  poison_arrow:
+    enabled: true
+    display-name: "&2毒箭"
+    max-level: 10
+    description:
+      - "&7箭矢带毒"
+      - "&7等级越高, 毒效越强"
+    apply-to:
+      - BOW
+      - CROSSBOW
+    cooldown: 2
+
+  explosive_arrow:
+    enabled: true
+    display-name: "&c爆炸箭"
+    max-level: 10
+    description:
+      - "&7箭矢击中时爆炸"
+      - "&7等级越高, 爆炸越强"
+    apply-to:
+      - BOW
+      - CROSSBOW
+    cooldown: 3
+
+  web_shot:
+    enabled: true
+    display-name: "&f蛛网射击"
+    max-level: 5
+    description:
+      - "&7箭矢落地生成蜘蛛网"
+      - "&7等级越高, 范围越大"
+    apply-to:
+      - BOW
+      - CROSSBOW
+    cooldown: 4
+
+  gravity_arrow:
+    enabled: true
+    display-name: "&9重力箭"
+    max-level: 5
+    description:
+      - "&7将目标拉向自己"
+      - "&7等级越高, 拉力越强"
+    apply-to:
+      - BOW
+      - CROSSBOW
+    cooldown: 3
+
+  # === 工具 (6个) ===
+  vein_miner:
+    enabled: true
+    display-name: "&b连锁挖矿"
+    max-level: 5
+    description:
+      - "&7破坏相连的同种矿石"
+      - "&7等级越高, 范围越大"
+    apply-to:
+      - PICKAXE
+    cooldown: 1
+
+  timber:
+    enabled: true
+    display-name: "&6砍树"
+    max-level: 5
+    description:
+      - "&7连锁破坏树木"
+      - "&7等级越高, 范围越大"
+    apply-to:
+      - AXE
+    cooldown: 1
+
+  auto_smelt:
+    enabled: true
+    display-name: "&4自动冶炼"
+    max-level: 5
+    description:
+      - "&7挖掘矿石自动熔炼"
+      - "&7等级越高, 效率越高"
+    apply-to:
+      - PICKAXE
+    cooldown: 0
+
+  fortune_boost:
+    enabled: true
+    display-name: "&e时运增幅"
+    max-level: 5
+    description:
+      - "&7增加矿物掉落"
+      - "&7等级越高, 掉落越多"
+    apply-to:
+      - PICKAXE
+    cooldown: 0
+
+  excavator:
+    enabled: true
+    display-name: "&7挖掘者"
+    max-level: 5
+    description:
+      - "&7范围挖掘 3x3"
+      - "&7等级越高, 范围越大"
+    apply-to:
+      - PICKAXE
+      - SHOVEL
+    cooldown: 1
+
+  replant:
+    enabled: true
+    display-name: "&a自动补种"
+    max-level: 5
+    description:
+      - "&7收割后自动种植"
+      - "&7等级越高, 范围越大"
+    apply-to:
+      - HOE
+    cooldown: 0
+
+  # === 盔甲 (11个) ===
+  molten_armor:
+    enabled: true
+    display-name: "&6熔岩装甲"
+    max-level: 5
+    description:
+      - "&7攻击者着火"
+      - "&7等级越高, 时间越长"
+    apply-to:
+      - CHESTPLATE
+    cooldown: 2
+
+  thorns_spike:
+    enabled: true
+    display-name: "&c荆棘尖刺"
+    max-level: 10
+    description:
+      - "&7反伤攻击者"
+      - "&7等级越高, 反伤越高"
+    apply-to:
+      - CHESTPLATE
+    cooldown: 1
+
+  speed_boost:
+    enabled: true
+    display-name: "&b速度提升"
+    max-level: 5
+    description:
+      - "&7穿戴时移动速度提升"
+      - "&7等级越高, 速度越快"
+    apply-to:
+      - LEGGINGS
+    cooldown: 0
+
+  jump_boost:
+    enabled: true
+    display-name: "&a跳跃强化"
+    max-level: 5
+    description:
+      - "&7穿戴时跳跃高度提升"
+      - "&7等级越高, 跳得越高"
+    apply-to:
+      - BOOTS
+    cooldown: 0
+
+  night_vision:
+    enabled: true
+    display-name: "&9夜视"
+    max-level: 5
+    description:
+      - "&7穿戴时获得夜视效果"
+      - "&7等级越高, 时间越长"
+    apply-to:
+      - HELMET
+    cooldown: 0
+
+  regeneration:
+    enabled: true
+    display-name: "&c再生"
+    max-level: 5
+    description:
+      - "&7穿戴时缓慢回血"
+      - "&7等级越高, 回复越快"
+    apply-to:
+      - HELMET
+      - CHESTPLATE
+    cooldown: 0
+
+  resistance:
+    enabled: true
+    display-name: "&8抗性"
+    max-level: 5
+    description:
+      - "&7穿戴时减少受到的伤害"
+      - "&7等级越高, 减伤越多"
+    apply-to:
+      - CHESTPLATE
+    cooldown: 0
+
+  aqua_affinity:
+    enabled: true
+    display-name: "&3深海亲和"
+    max-level: 5
+    description:
+      - "&7水下呼吸和快速挖掘"
+      - "&7等级越高, 效果越强"
+    apply-to:
+      - HELMET
+    cooldown: 0
+
+  feather_fall:
+    enabled: true
+    display-name: "&f羽落"
+    max-level: 5
+    description:
+      - "&7触发时获得缓降效果"
+      - "&7等级越高, 时间越长"
+    apply-to:
+      - BOOTS
+    cooldown: 5
+
+  invisibility:
+    enabled: true
+    display-name: "&7隐身"
+    max-level: 5
+    description:
+      - "&7触发时获得隐身效果"
+      - "&7等级越高, 时间越长"
+    apply-to:
+      - HELMET
+    cooldown: 10
+
+  experience_boost:
+    enabled: true
+    display-name: "&e经验增幅"
+    max-level: 5
+    description:
+      - "&7获得更多经验"
+      - "&7等级越高, 增幅越大"
+    apply-to:
+      - SWORD
+      - AXE
+      - PICKAXE
+    cooldown: 0
+
+  # === 通用 (2个) ===
+  looting_master:
+    enabled: true
+    display-name: "&d掠夺大师"
+    max-level: 5
+    description:
+      - "&7击杀时额外掉落"
+      - "&7等级越高, 掉落越多"
+    apply-to:
+      - SWORD
+      - AXE
+    cooldown: 0
+
+  durability_blessing:
+    enabled: true
+    display-name: "&a耐久祝福"
+    max-level: 5
+    description:
+      - "&7概率不消耗耐久"
+      - "&7等级越高, 概率越高"
+    apply-to:
+      - SWORD
+      - AXE
+      - PICKAXE
+      - SHOVEL
+      - HOE
+      - BOW
+      - CROSSBOW
+    cooldown: 0

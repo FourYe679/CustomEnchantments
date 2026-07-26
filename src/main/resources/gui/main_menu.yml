@@ -1,0 +1,5 @@
+# 主菜单 GUI 语言文本
+title: "&8[&d自定义附魔&8] 主菜单"
+close: "&c关闭菜单"
+total-enchants: "&7共 &f{count} &7个附魔"
+click-browse: "&e➤ 点击浏览 {category}"
