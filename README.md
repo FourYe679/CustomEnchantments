@@ -194,7 +194,7 @@ max-enchant-level: 225
 enable-anvil-max-level: true
 
 # 是否启用附魔台修改等级上限
-enable-enchanting-table-max-level: true
+enable-enchanting-table-max-level: false
 
 # 是否在铁砧中允许合并超出原版等级的附魔书
 allow-combine-overlevel: true
