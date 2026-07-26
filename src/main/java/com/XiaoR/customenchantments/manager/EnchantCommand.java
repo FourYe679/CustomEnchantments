@@ -274,6 +274,7 @@ public class EnchantCommand implements CommandExecutor, TabCompleter {
                 storageMeta.removeStoredEnchant(enchantment);
             }
             meta.removeEnchant(enchantment);
+            removeVanillaLore(meta, enchantment);
             item.setItemMeta(meta);
             EnchantUtil.sendMessage(player, lang.getMessage("vanilla-enchant-removed",
                     "{enchant}", enchantment.getKey().getKey()));
@@ -284,10 +285,87 @@ public class EnchantCommand implements CommandExecutor, TabCompleter {
         } else {
             meta.addEnchant(enchantment, level, true);
         }
+        if (level > 10) {
+            meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            addVanillaLore(meta, enchantment, level);
+        } else {
+            meta.removeItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            removeVanillaLore(meta, enchantment);
+        }
         item.setItemMeta(meta);
         EnchantUtil.sendMessage(player, lang.getMessage("vanilla-enchant-set",
                 "{enchant}", enchantment.getKey().getKey(),
                 "{level}", String.valueOf(level)));
+    }
+
+    private void addVanillaLore(ItemMeta meta, Enchantment enchantment, int level) {
+        List<String> lore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
+        String enchantKey = enchantment.getKey().getKey();
+        String displayName = getVanillaDisplayName(enchantKey);
+        String loreMarker = ChatColor.DARK_AQUA + "\u2727 " + displayName + " " + ChatColor.GRAY + "Lv." + level;
+        lore.removeIf(line -> {
+            String stripped = ChatColor.stripColor(line);
+            return stripped.startsWith("\u2727 " + displayName + " ");
+        });
+        lore.add(0, loreMarker);
+        meta.setLore(lore);
+    }
+
+    private void removeVanillaLore(ItemMeta meta, Enchantment enchantment) {
+        if (!meta.hasLore()) return;
+        String enchantKey = enchantment.getKey().getKey();
+        String displayName = getVanillaDisplayName(enchantKey);
+        List<String> lore = new ArrayList<>(meta.getLore());
+        lore.removeIf(line -> {
+            String stripped = ChatColor.stripColor(line);
+            return stripped.startsWith("\u2727 " + displayName + " ");
+        });
+        meta.setLore(lore.isEmpty() ? null : lore);
+    }
+
+    private String getVanillaDisplayName(String enchantKey) {
+        return switch (enchantKey) {
+            case "unbreaking" -> "耐久";
+            case "mending" -> "经验修补";
+            case "fortune" -> "时运";
+            case "silk_touch" -> "精准采集";
+            case "efficiency" -> "效率";
+            case "sharpness" -> "锋利";
+            case "smite" -> "亡灵杀手";
+            case "bane_of_arthropods" -> "节肢杀手";
+            case "knockback" -> "击退";
+            case "fire_aspect" -> "火焰附加";
+            case "looting" -> "抢夺";
+            case "sweeping_edge" -> "横扫之刃";
+            case "protection" -> "保护";
+            case "fire_protection" -> "火焰保护";
+            case "blast_protection" -> "爆炸保护";
+            case "projectile_protection" -> "弹射物保护";
+            case "feather_falling" -> "摔落保护";
+            case "respiration" -> "水下呼吸";
+            case "aqua_affinity" -> "水下速掘";
+            case "thorns" -> "荆棘";
+            case "depth_strider" -> "深海探索者";
+            case "frost_walker" -> "冰霜行者";
+            case "binding_curse" -> "绑定诅咒";
+            case "vanishing_curse" -> "消失诅咒";
+            case "power" -> "力量";
+            case "punch" -> "冲击";
+            case "flame" -> "火矢";
+            case "infinity" -> "无限";
+            case "luck_of_the_sea" -> "海之眷顾";
+            case "lure" -> "饵钓";
+            case "loyalty" -> "忠诚";
+            case "riptide" -> "激流";
+            case "channeling" -> "引雷";
+            case "impaling" -> "穿刺";
+            case "multishot" -> "多重射击";
+            case "piercing" -> "穿透";
+            case "quick_charge" -> "快速装填";
+            case "soul_speed" -> "灵魂疾行";
+            case "swift_sneak" -> "潜行加速";
+            default -> enchantKey;
+        };
     }
 
     private Enchantment parseVanillaEnchant(String name) {

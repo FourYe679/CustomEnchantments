@@ -14,6 +14,8 @@ import org.bukkit.util.Vector;
 import java.util.Collection;
 
 public class HomingArrowEnchant extends CustomEnchantment {
+    private static final double CONE_COS = Math.cos(Math.toRadians(30));
+
     public HomingArrowEnchant() {
         super("homing_arrow");
     }
@@ -26,6 +28,8 @@ public class HomingArrowEnchant extends CustomEnchantment {
         final double range = level * 10.0;
         final int maxTicks = level * 40;
         final Player shooter = player;
+        final Vector shootDir = player.getEyeLocation().getDirection().normalize();
+        final Location shootEyeLoc = player.getEyeLocation();
         new BukkitRunnable() {
             int ticks = 0;
 
@@ -45,13 +49,21 @@ public class HomingArrowEnchant extends CustomEnchantment {
                 double nearestDistSq = range * range;
                 for (Entity e : nearby) {
                     if (!(e instanceof LivingEntity)) continue;
-                    if (e.getUniqueId().equals(shooter.getUniqueId())) continue;
                     if (e instanceof Player) {
                         Player p = (Player) e;
+                        if (p.getUniqueId().equals(shooter.getUniqueId())) continue;
                         if (p.getGameMode() == org.bukkit.GameMode.SPECTATOR
                                 || p.getGameMode() == org.bukkit.GameMode.CREATIVE) continue;
                     }
+                    if (e instanceof AbstractArrow) continue;
                     if (e.isDead()) continue;
+                    Vector toEntity = e.getLocation().toVector().subtract(shootEyeLoc.toVector());
+                    double dist = toEntity.length();
+                    if (dist < 0.001) continue;
+                    toEntity.normalize();
+                    double dot = toEntity.dot(shootDir);
+                    if (dot < CONE_COS) continue;
+                    if (!shooter.hasLineOfSight(e)) continue;
                     double distSq = e.getLocation().distanceSquared(arrowLoc);
                     if (distSq < nearestDistSq) {
                         nearestDistSq = distSq;

@@ -7,6 +7,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 public class TeleportStrikeEnchant extends CustomEnchantment {
     public TeleportStrikeEnchant() {
@@ -21,11 +23,18 @@ public class TeleportStrikeEnchant extends CustomEnchantment {
         Vector direction = targetLoc.toVector().subtract(playerLoc.toVector());
         if (direction.lengthSquared() == 0) return;
         direction.normalize();
-        Location behindLoc = targetLoc.clone().add(direction.multiply(2));
+        double teleportDistance = 2.0 + level * 0.3;
+        Location behindLoc = targetLoc.clone().add(direction.multiply(teleportDistance));
         behindLoc.setY(targetLoc.getY());
         behindLoc.setYaw(targetLoc.getYaw());
         behindLoc.setPitch(targetLoc.getPitch());
         player.teleport(behindLoc);
         world.playSound(behindLoc, Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
+        if (target instanceof LivingEntity) {
+            LivingEntity living = (LivingEntity) target;
+            living.damage(level * 2.0, player);
+            int slowDuration = level * 20;
+            living.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, slowDuration, Math.min(level - 1, 4)));
+        }
     }
 }

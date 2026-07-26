@@ -14,6 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -208,9 +209,21 @@ public class EnchantManager {
         enchants.put(enchantId, level);
         saveEnchants(meta, enchants);
         updateItemLore(meta, enchants);
-        meta.addEnchant(Enchantment.LURE, 1, true);
-        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS,
-                org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
+        meta.setEnchantmentGlintOverride(true);
+        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
+        boolean hasSuperHighVanilla = false;
+        Map<Enchantment, Integer> vanillaEnchants = new HashMap<>(meta.getEnchants());
+        if (meta instanceof EnchantmentStorageMeta storageMeta) {
+            vanillaEnchants.putAll(storageMeta.getStoredEnchants());
+        }
+        for (int vanillaLevel : vanillaEnchants.values()) {
+            if (vanillaLevel > 10) { hasSuperHighVanilla = true; break; }
+        }
+        if (hasSuperHighVanilla) {
+            meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        } else {
+            meta.removeItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        }
         item.setItemMeta(meta);
         return true;
     }
@@ -223,8 +236,21 @@ public class EnchantManager {
         enchants.remove(enchantId);
         saveEnchants(meta, enchants);
         updateItemLore(meta, enchants);
-        if (enchants.isEmpty()) {
-            meta.removeEnchant(Enchantment.LURE);
+        if (enchants.isEmpty() && !meta.hasEnchants()) {
+            meta.setEnchantmentGlintOverride(null);
+        }
+        boolean hasSuperHighVanilla = false;
+        Map<Enchantment, Integer> vanillaEnchants = new HashMap<>(meta.getEnchants());
+        if (meta instanceof EnchantmentStorageMeta storageMeta) {
+            vanillaEnchants.putAll(storageMeta.getStoredEnchants());
+        }
+        for (int vanillaLevel : vanillaEnchants.values()) {
+            if (vanillaLevel > 10) { hasSuperHighVanilla = true; break; }
+        }
+        if (hasSuperHighVanilla) {
+            meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        } else {
+            meta.removeItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         }
         item.setItemMeta(meta);
         return true;
@@ -268,10 +294,9 @@ public class EnchantManager {
         if (meta == null) return null;
         String displayName = ChatColor.translateAlternateColorCodes('&', enchant.getDisplayName());
         meta.setDisplayName(ChatColor.AQUA + "\u2726 " + displayName + " " + ChatColor.GOLD + "Lv." + level);
-        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS,
-                org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES,
+        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES,
                 org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-        meta.addEnchant(Enchantment.LURE, 1, true);
+        meta.setEnchantmentGlintOverride(true);
         Map<String, Integer> enchants = new HashMap<>();
         enchants.put(enchantId, level);
         String json = gson.toJson(enchants);

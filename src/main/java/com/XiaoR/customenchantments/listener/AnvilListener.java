@@ -11,7 +11,9 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 public class AnvilListener implements Listener {
     private final CustomEnchantments plugin;
@@ -98,6 +100,15 @@ public class AnvilListener implements Listener {
                 resultMeta.addEnchant(entry.getKey(), entry.getValue(), true);
             }
         }
+        boolean hasSuperHighVanilla = false;
+        for (Map.Entry<Enchantment, Integer> entry : mergedVanilla.entrySet()) {
+            if (entry.getValue() > 10) { hasSuperHighVanilla = true; break; }
+        }
+        if (hasSuperHighVanilla) {
+            resultMeta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        } else {
+            resultMeta.removeItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        }
 
         Map<String, Integer> mergedCustom = new HashMap<>(firstCustomEnchants);
         if (secondItem.getType() == Material.ENCHANTED_BOOK || !secondCustomEnchants.isEmpty()) {
@@ -106,19 +117,31 @@ public class AnvilListener implements Listener {
                 int secondLvl = entry.getValue();
                 if (mergedCustom.containsKey(enchantId)) {
                     int existingLvl = mergedCustom.get(enchantId);
-                    if (allowCombine) {
-                        mergedCustom.put(enchantId, Math.min(existingLvl + secondLvl, maxLevel));
-                    } else {
-                        mergedCustom.put(enchantId, Math.min(Math.max(existingLvl, secondLvl), maxLevel));
-                    }
+                    mergedCustom.put(enchantId, Math.max(existingLvl, secondLvl));
                 } else {
-                    mergedCustom.put(enchantId, Math.min(secondLvl, maxLevel));
+                    mergedCustom.put(enchantId, secondLvl);
                 }
             }
         }
         result.setItemMeta(resultMeta);
         for (Map.Entry<String, Integer> entry : mergedCustom.entrySet()) {
             enchantManager.applyEnchant(result, entry.getKey(), entry.getValue());
+        }
+        if (hasSuperHighVanilla) {
+            ItemMeta finalMeta = result.getItemMeta();
+            if (finalMeta != null) {
+                List<String> vanillaLore = new ArrayList<>();
+                for (Map.Entry<Enchantment, Integer> entry : mergedVanilla.entrySet()) {
+                    String enchantKey = entry.getKey().getKey().getKey();
+                    String displayName = getVanillaDisplayName(enchantKey);
+                    String loreLine = org.bukkit.ChatColor.DARK_AQUA + "\u2727 " + displayName + " " + org.bukkit.ChatColor.GRAY + "Lv." + entry.getValue();
+                    vanillaLore.add(loreLine);
+                }
+                List<String> existingLore = finalMeta.hasLore() ? new ArrayList<>(finalMeta.getLore()) : new ArrayList<>();
+                existingLore.addAll(0, vanillaLore);
+                finalMeta.setLore(existingLore.isEmpty() ? null : existingLore);
+                result.setItemMeta(finalMeta);
+            }
         }
         event.setResult(result);
     }
@@ -134,5 +157,50 @@ public class AnvilListener implements Listener {
         }
         map.remove(Enchantment.LURE);
         return map;
+    }
+
+    private String getVanillaDisplayName(String enchantKey) {
+        return switch (enchantKey) {
+            case "unbreaking" -> "耐久";
+            case "mending" -> "经验修补";
+            case "fortune" -> "时运";
+            case "silk_touch" -> "精准采集";
+            case "efficiency" -> "效率";
+            case "sharpness" -> "锋利";
+            case "smite" -> "亡灵杀手";
+            case "bane_of_arthropods" -> "节肢杀手";
+            case "knockback" -> "击退";
+            case "fire_aspect" -> "火焰附加";
+            case "looting" -> "抢夺";
+            case "sweeping_edge" -> "横扫之刃";
+            case "protection" -> "保护";
+            case "fire_protection" -> "火焰保护";
+            case "blast_protection" -> "爆炸保护";
+            case "projectile_protection" -> "弹射物保护";
+            case "feather_falling" -> "摔落保护";
+            case "respiration" -> "水下呼吸";
+            case "aqua_affinity" -> "水下速掘";
+            case "thorns" -> "荆棘";
+            case "depth_strider" -> "深海探索者";
+            case "frost_walker" -> "冰霜行者";
+            case "binding_curse" -> "绑定诅咒";
+            case "vanishing_curse" -> "消失诅咒";
+            case "power" -> "力量";
+            case "punch" -> "冲击";
+            case "flame" -> "火矢";
+            case "infinity" -> "无限";
+            case "luck_of_the_sea" -> "海之眷顾";
+            case "lure" -> "饵钓";
+            case "loyalty" -> "忠诚";
+            case "riptide" -> "激流";
+            case "channeling" -> "引雷";
+            case "impaling" -> "穿刺";
+            case "multishot" -> "多重射击";
+            case "piercing" -> "穿透";
+            case "quick_charge" -> "快速装填";
+            case "soul_speed" -> "灵魂疾行";
+            case "swift_sneak" -> "潜行加速";
+            default -> enchantKey;
+        };
     }
 }

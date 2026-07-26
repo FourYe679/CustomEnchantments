@@ -5,6 +5,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 public class ThunderSlashEnchant extends CustomEnchantment {
@@ -15,6 +16,7 @@ public class ThunderSlashEnchant extends CustomEnchantment {
     @Override
     public void onActivate(Player player, Entity target, int level, ItemStack item) {
         if (target == null || target.getWorld() == null) return;
+        if (target instanceof Villager) return;
         World world = target.getWorld();
         Location targetLoc = target.getLocation();
         double radius = 2 + level;

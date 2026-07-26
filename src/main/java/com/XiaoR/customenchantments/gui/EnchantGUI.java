@@ -5,7 +5,6 @@ import com.XiaoR.customenchantments.manager.LanguageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,13 +39,9 @@ public class EnchantGUI {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
                         category.getColor() + "\u2726 " + category.getDisplayName(lang)));
                 meta.addItemFlags(
-                        org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS,
                         org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES,
                         org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-                try {
-                    meta.addEnchant(Enchantment.LURE, 1, true);
-                } catch (IllegalArgumentException ignored) {
-                }
+                meta.setEnchantmentGlintOverride(true);
                 List<String> lore = new ArrayList<>();
                 lore.add(ChatColor.GRAY + "\u5171 " + ChatColor.WHITE + count + ChatColor.GRAY + " \u4e2a\u9644\u9b54");
                 lore.add("");

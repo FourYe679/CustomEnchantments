@@ -85,6 +85,7 @@ public class EnchantListener implements Listener {
             weapon = player.getInventory().getItemInOffHand();
             if (weapon == null || weapon.getType().isAir()) return;
         }
+        if (weapon.getType() == Material.BOW || weapon.getType() == Material.CROSSBOW) return;
         Map<String, Integer> enchants = enchantManager.getAllEnchants(weapon);
         if (enchants.isEmpty()) return;
         for (Map.Entry<String, Integer> entry : enchants.entrySet()) {

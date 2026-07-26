@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -51,13 +50,9 @@ public class EnchantShopGUI {
                 meta.setDisplayName(ChatColor.AQUA + "\u2726 " + displayName + " "
                         + ChatColor.GOLD + "Lv." + level);
                 meta.addItemFlags(
-                        org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS,
                         org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES,
                         org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-                try {
-                    meta.addEnchant(Enchantment.LURE, 1, true);
-                } catch (IllegalArgumentException ignored) {
-                }
+                meta.setEnchantmentGlintOverride(true);
                 List<String> lore = new ArrayList<>();
                 lore.add(ChatColor.GOLD + "\u2726 \u7b49\u7ea7: " + ChatColor.WHITE + level + " / " + enchant.getMaxLevel());
                 lore.add(ChatColor.GOLD + "\u2726 \u4ef7\u683c: " + ChatColor.GREEN + "$" + moneyFormat.format(price));

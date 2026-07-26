@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 public class LightningStrikeEnchant extends CustomEnchantment {
@@ -14,6 +15,7 @@ public class LightningStrikeEnchant extends CustomEnchantment {
     @Override
     public void onActivate(Player player, Entity target, int level, ItemStack item) {
         if (target == null || target.getWorld() == null) return;
+        if (target instanceof Villager) return;
         World world = target.getWorld();
         Location targetLoc = target.getLocation();
         int lightningCount = level;

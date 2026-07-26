@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -103,13 +102,9 @@ public class EnchantCategoryGUI {
         meta.setDisplayName(ChatColor.AQUA + "\u2726 " + displayName);
 
         meta.addItemFlags(
-                org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS,
                 org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES,
                 org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-        try {
-            meta.addEnchant(Enchantment.LURE, 1, true);
-        } catch (IllegalArgumentException ignored) {
-        }
+        meta.setEnchantmentGlintOverride(true);
 
         List<String> lore = new ArrayList<>();
         for (String line : enchant.getDescription()) {

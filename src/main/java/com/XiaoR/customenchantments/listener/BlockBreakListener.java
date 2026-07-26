@@ -214,6 +214,8 @@ public class BlockBreakListener implements Listener {
                 org.bukkit.block.data.Ageable cropData = (org.bukkit.block.data.Ageable) block.getBlockData();
                 boolean wasMature = cropData.getAge() >= cropData.getMaximumAge();
                 if (wasMature && consumeSeed(player, seedType)) {
+                    int replantLevel = enchants.getOrDefault("replant", 1);
+                    double bonemealChance = Math.min(replantLevel * 0.2, 1.0);
                     new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -222,6 +224,9 @@ public class BlockBreakListener implements Listener {
                                 org.bukkit.block.data.Ageable newData = (org.bukkit.block.data.Ageable) block.getBlockData();
                                 newData.setAge(0);
                                 block.setBlockData(newData);
+                                if (Math.random() < bonemealChance) {
+                                    block.applyBoneMeal(org.bukkit.block.BlockFace.UP);
+                                }
                             }
                         }
                     }.runTaskLater(plugin, 1L);

@@ -4,6 +4,7 @@ import com.XiaoR.customenchantments.manager.CooldownManager;
 import com.XiaoR.customenchantments.manager.EnchantManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
+import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,11 +16,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 public class ArmorEffectListener implements Listener {
     private final CustomEnchantments plugin;
     private final EnchantManager enchantManager;
     private final CooldownManager cooldownManager;
     private BukkitTask armorCheckTask;
+    private final Set<UUID> processingDamage = ConcurrentHashMap.newKeySet();
     public ArmorEffectListener(CustomEnchantments plugin) {
         this.plugin = plugin;
         this.enchantManager = plugin.getEnchantManager();
@@ -35,17 +39,17 @@ public class ArmorEffectListener implements Listener {
                     e.printStackTrace();
                 }
             }
-        }, 40L, 40L);
+        }, 20L, 20L);
     }
     private void checkArmorEffects(Player player) {
         int speedLevel = 0;
         int jumpLevel = 0;
-        boolean hasNightVision = false;
+        int nightVisionLevel = 0;
         int regenLevel = 0;
         int resistanceLevel = 0;
-        boolean hasAquaAffinity = false;
-        boolean hasFeatherFall = false;
-        boolean hasInvisibility = false;
+        int aquaAffinityLevel = 0;
+        int featherFallLevel = 0;
+        int invisibilityLevel = 0;
         int moltenLevel = 0;
         int thornsLevel = 0;
         ItemStack[] armorContents = player.getInventory().getArmorContents();
@@ -62,7 +66,8 @@ public class ArmorEffectListener implements Listener {
                 if (lvl > jumpLevel) jumpLevel = lvl;
             }
             if (enchants.containsKey("night_vision")) {
-                hasNightVision = true;
+                int lvl = enchants.get("night_vision");
+                if (lvl > nightVisionLevel) nightVisionLevel = lvl;
             }
             if (enchants.containsKey("regeneration")) {
                 int lvl = enchants.get("regeneration");
@@ -73,13 +78,16 @@ public class ArmorEffectListener implements Listener {
                 if (lvl > resistanceLevel) resistanceLevel = lvl;
             }
             if (enchants.containsKey("aqua_affinity")) {
-                hasAquaAffinity = true;
+                int lvl = enchants.get("aqua_affinity");
+                if (lvl > aquaAffinityLevel) aquaAffinityLevel = lvl;
             }
             if (enchants.containsKey("feather_fall")) {
-                hasFeatherFall = true;
+                int lvl = enchants.get("feather_fall");
+                if (lvl > featherFallLevel) featherFallLevel = lvl;
             }
             if (enchants.containsKey("invisibility")) {
-                hasInvisibility = true;
+                int lvl = enchants.get("invisibility");
+                if (lvl > invisibilityLevel) invisibilityLevel = lvl;
             }
             if (enchants.containsKey("molten_armor")) {
                 int lvl = enchants.get("molten_armor");
@@ -91,37 +99,57 @@ public class ArmorEffectListener implements Listener {
             }
         }
         if (speedLevel > 0) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, speedLevel - 1, false, false));
+            int duration = speedLevel * 200;
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, speedLevel - 1, false, false));
         }
         if (jumpLevel > 0) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 60, jumpLevel - 1, false, false));
+            int duration = jumpLevel * 200;
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, duration, jumpLevel - 1, false, false));
         }
-        if (hasNightVision) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0, false, false));
+        if (nightVisionLevel > 0) {
+            int duration = nightVisionLevel * 200;
+            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, duration, 0, false, false));
+            if (nightVisionLevel >= 2) {
+                int hasteAmplifier = Math.min(nightVisionLevel - 2, 3);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, duration, hasteAmplifier, false, false));
+            }
         }
         if (regenLevel > 0) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, regenLevel - 1, false, false));
+            int duration = regenLevel * 200;
+            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, duration, regenLevel - 1, false, false));
         }
         if (resistanceLevel > 0) {
             int potionAmplifier = Math.min(resistanceLevel - 1, 4);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 60, potionAmplifier, false, false));
+            int duration = resistanceLevel * 200;
+            player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, duration, potionAmplifier, false, false));
         }
-        if (hasAquaAffinity) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 80, 0, false, false));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.CONDUIT_POWER, 80, 0, false, false));
+        if (aquaAffinityLevel > 0) {
+            int duration = aquaAffinityLevel * 200;
+            player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, duration, 0, false, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.CONDUIT_POWER, duration, 0, false, false));
+            int hasteAmplifier = Math.min(aquaAffinityLevel - 1, 3);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, duration, hasteAmplifier, false, false));
         }
-        if (hasFeatherFall) {
+        if (featherFallLevel > 0) {
             if (player.getFallDistance() > 2) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 60, 0, false, false));
+                int duration = featherFallLevel * 200;
+                int slowFallAmplifier = Math.min(featherFallLevel - 1, 4);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, duration, slowFallAmplifier, false, false));
             }
         }
-        if (hasInvisibility) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 60, 0, false, false));
+        if (invisibilityLevel > 0) {
+            int duration = invisibilityLevel * 200;
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, duration, 0, false, false));
+            if (invisibilityLevel >= 2) {
+                int speedAmplifier = Math.min(invisibilityLevel - 2, 3);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, speedAmplifier, false, false));
+            }
         }
     }
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
+        if (processingDamage.contains(player.getUniqueId())) return;
         org.bukkit.entity.Entity damagerEntity = event.getDamager();
         LivingEntity attacker = null;
         if (damagerEntity instanceof LivingEntity le) {
@@ -147,11 +175,16 @@ public class ArmorEffectListener implements Listener {
             }
         }
         if (moltenLevel > 0) {
-            attacker.setFireTicks(moltenLevel * 40);
+            attacker.setFireTicks(moltenLevel * 200);
         }
         if (thornsLevel > 0) {
             double reflectedDamage = thornsLevel * 1.5;
-            attacker.damage(reflectedDamage, player);
+            processingDamage.add(attacker.getUniqueId());
+            try {
+                attacker.damage(reflectedDamage, player);
+            } finally {
+                processingDamage.remove(attacker.getUniqueId());
+            }
         }
     }
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -159,13 +192,19 @@ public class ArmorEffectListener implements Listener {
         if (!(event.getEntity() instanceof Player player)) return;
         if (event.getCause() != EntityDamageEvent.DamageCause.FALL) return;
         ItemStack[] armorContents = player.getInventory().getArmorContents();
+        int featherFallLevel = 0;
         for (ItemStack armorPiece : armorContents) {
             if (armorPiece == null || armorPiece.getType().isAir()) continue;
             Map<String, Integer> enchants = enchantManager.getAllEnchants(armorPiece);
             if (enchants.containsKey("feather_fall")) {
-                event.setDamage(0);
-                return;
+                int lvl = enchants.get("feather_fall");
+                if (lvl > featherFallLevel) featherFallLevel = lvl;
             }
+        }
+        if (featherFallLevel > 0) {
+            double reduction = Math.min(featherFallLevel * 0.2, 1.0);
+            double newDamage = event.getDamage() * (1.0 - reduction);
+            event.setDamage(newDamage);
         }
     }
     public void shutdown() {
