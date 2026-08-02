@@ -1,0 +1,59 @@
+# 通用语言文本 (消息/命令/提示)
+prefix: "&8[&d自定义附魔&8] &r"
+
+# 命令相关
+no-permission: "&c你没有权限使用此命令!"
+player-only: "&c该命令只能由玩家执行!"
+no-item-in-hand: "&c你手中没有物品!"
+player-not-found: "&c找不到玩家: &e{player}"
+player-not-online: "&c玩家 &e{player} &c不在线!"
+
+# 附魔操作
+enchant-applied: "&a成功将 &e{enchant} {level}级 &a应用到物品上!"
+enchant-removed: "&a成功移除物品上的 &e{enchant} &a附魔!"
+enchant-not-found: "&c找不到附魔: &e{enchant}"
+enchant-not-applicable: "&c该附魔不能应用到当前物品上!"
+enchant-disabled: "&c该附魔已被禁用!"
+max-level-exceeded: "&c该附魔最大等级为 &e{max} &c级!"
+book-create-failed: "&c创建附魔书失败!"
+reloaded: "&a配置已重载!"
+
+# 给予/列表
+give-success: "&a已给予 &e{player} &a附魔书: &e{enchant} {level}级"
+list-header: "&6=== 自定义附魔列表 ==="
+list-format: "&e{enchant} &7- &f最大{max}级 &7| {desc}"
+
+# 命令帮助
+help-header: "&6=== CustomEnchantments 帮助 ==="
+help-apply: "&e/ce apply <附魔ID> [等级] &7- 给手持物品应用附魔"
+help-remove: "&e/ce remove <附魔ID> &7- 移除手持物品上的附魔"
+help-list: "&e/ce list [页码] &7- 列出所有自定义附魔"
+help-give: "&e/ce give <玩家> <附魔ID> [等级] &7- 给予附魔书"
+help-gui: "&e/ce gui &7- 打开附魔GUI菜单"
+help-reload: "&e/ce reload &7- 重载配置"
+help-maxlevel: "&e/ce maxlevel <等级> &7- 设置附魔最大等级"
+help-vlevel: "&e/ce vlevel <原版附魔名> <等级> &7- 修改手中物品的原版附魔等级 (等级为0则移除)"
+
+# 用法提示
+usage-apply: "&c用法: /ce apply <附魔ID> [等级]"
+usage-remove: "&c用法: /ce remove <附魔ID>"
+usage-give: "&c用法: /ce give <玩家> <附魔ID> [等级]"
+usage-vlevel: "&c用法: /ce vlevel <原版附魔名> <等级>"
+
+vanilla-enchant-not-found: "&c找不到原版附魔: &e{enchant}"
+vanilla-enchant-set: "&a已将原版附魔 &e{enchant} &a等级设置为 &6Lv.{level}"
+vanilla-enchant-removed: "&a已移除原版附魔 &e{enchant}"
+
+# 原版附魔等级
+maxlevel-current: "&6当前原版附魔最大等级: &f{level}"
+maxlevel-range-error: "&c等级必须在 1-255 之间!"
+maxlevel-set: "&a已将原版附魔最大等级设置为: &f{level}"
+
+# 商店/经济
+economy-not-enabled: "&c经济系统未启用，无法购买!"
+insufficient-funds: "&c余额不足! 需要 &a{price}&c，当前余额: &a{balance}"
+inventory-full: "&e背包已满，附魔书已掉落在地上!"
+purchase-success: "&a购买成功! 已获得 &d{enchant} &6Lv.{level}&a，花费 &a{price}"
+gui-no-permission: "&c你没有权限使用GUI!"
+shop-disabled: "&c商店购买功能已关闭!"
+world-not-allowed: "&c当前世界不允许使用附魔商店!"

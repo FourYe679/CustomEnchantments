@@ -1,0 +1,40 @@
+name: CustomEnchantments
+version: '1.0.3'
+main: com.XiaoR.customenchantments.CustomEnchantments
+api-version: '26.1.2'
+description: 自定义附魔插件 - 包含自定义附魔和原版附魔等级修改
+authors: [XiaoR, FourYe]
+
+commands:
+  cenchant:
+    description: 自定义附魔主命令
+    usage: /cenchant <apply|remove|list|give|reload|maxlevel|vlevel>
+    aliases: [ce, customenchant]
+    permission: cenchant.command
+    permission-message: "&c你没有权限使用此命令!"
+
+permissions:
+  cenchant.command:
+    description: 使用自定义附魔命令
+    default: true
+  cenchant.apply:
+    description: 给物品应用自定义附魔
+    default: op
+  cenchant.remove:
+    description: 移除物品上的自定义附魔
+    default: op
+  cenchant.give:
+    description: 给予自定义附魔书
+    default: op
+  cenchant.gui:
+    description: 打开附魔GUI菜单并购买附魔书
+    default: true
+  cenchant.reload:
+    description: 重载配置
+    default: op
+  cenchant.vlevel:
+    description: 修改原版附魔等级
+    default: op
+  cenchant.bypass:
+    description: 绕过限制
+    default: op

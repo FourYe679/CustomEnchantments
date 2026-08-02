@@ -1,0 +1,6 @@
+# 附魔分类显示名称
+melee: "&c近战附魔"
+ranged: "&a远程附魔"
+tool: "&e工具附魔"
+armor: "&b盔甲附魔"
+special: "&d特殊附魔"

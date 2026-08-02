@@ -1,0 +1,83 @@
+# CustomEnchantments 配置文件
+# 语言文本请编辑 language/ 文件夹下的文件
+# 自定义附魔配置请编辑 enchantments.yml
+
+# 是否启用插件
+enabled: true
+
+# 原版附魔最大等级 (默认225)
+max-enchant-level: 225
+
+# 是否启用铁砧修改等级上限
+enable-anvil-max-level: true
+
+# 是否启用附魔台修改等级上限
+enable-enchanting-table-max-level: false
+
+# 附魔台自定义附魔设置 (在原版附魔基础上额外随机附出一个自定义附魔)
+enchanting-table-custom:
+  # 是否启用附魔台随机自定义附魔
+  enabled: true
+  # 每次附魔台附魔时获得自定义附魔的概率 (0.0 ~ 1.0)
+  chance: 0.25
+  # 自定义附魔最低等级 (不会超过 enchantments.yml 中该附魔的 max-level)
+  min-level: 1
+  # 自定义附魔最高等级 (不会超过 enchantments.yml 中该附魔的 max-level)
+  max-level: 5
+
+# 是否在铁砧中允许合并超出原版等级的附魔书
+allow-combine-overlevel: true
+
+# 是否在铁砧中禁止不属于对应工具的自定义附魔书附魔
+# true = 附魔书只能附魔到对应类型的工具上 (如剑附魔只能附在剑上)
+anvil-restrict-enchant-type: true
+
+# 附魔书物品设置
+enchant-book-item:
+  material: ENCHANTED_BOOK
+  glow: true
+  custom-model-data: 0
+
+# 商店设置
+shop:
+  # 是否启用商店购买功能 (false = 禁止玩家在GUI中购买附魔书)
+  enabled: false
+  # 允许使用商店的世界列表 (空列表 = 所有世界均可)
+  # 示例: ["world", "world_nether"]
+  enabled-worlds: []
+  # 默认基础价格 (每个附魔的每级价格 = 基础价 * 等级)
+  # 可以在 enchantments.yml 中单个附魔配置里用 "price: 200" 覆盖
+  default-price: 1000
+
+# 战利品箱子设置 (村庄箱子、遗迹、地牢等建筑内的宝箱)
+loot-chest:
+  # 是否在战利品箱子中生成自定义附魔书
+  enabled: true
+  # 允许生成战利品附魔书的世界列表 (空列表 = 所有世界均可)
+  # 示例: ["world", "world_nether"]
+  enabled-worlds: []
+  # 每个箱子生成附魔书的概率 (0.0 ~ 1.0)
+  chance: 0.08
+  # 附魔书最低等级 (不会超过 enchantments.yml 中该附魔的 max-level)
+  min-level: 1
+  # 附魔书最高等级 (不会超过 enchantments.yml 中该附魔的 max-level)
+  max-level: 5
+  # 允许在战利品中出现的附魔ID列表 (空列表 = 所有已启用的附魔)
+  # 示例: ["lightning_strike", "fire_storm", "life_steal"]
+  whitelist: []
+
+# 村民交易设置 (图书管理员村民)
+villager-trades:
+  # 是否让图书管理员村民有概率出售自定义附魔书
+  enabled: true
+  # 村民学会新交易时替换为附魔书的概率 (0.0 ~ 1.0)
+  chance: 0.15
+  # 附魔书最低等级 (不会超过 enchantments.yml 中该附魔的 max-level)
+  min-level: 1
+  # 附魔书最高等级 (不会超过 enchantments.yml 中该附魔的 max-level)
+  max-level: 5
+  # 允许在村民交易中出现的附魔ID列表 (空列表 = 所有已启用的附魔)
+  whitelist: []
+  # 绿宝石价格范围
+  min-emerald-price: 15
+  max-emerald-price: 64

@@ -1,0 +1,22 @@
+# Compiled class files
+target/classes/
+
+# Maven build output
+*.jar
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.bak
