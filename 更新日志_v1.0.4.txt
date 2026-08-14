@@ -1,0 +1,37 @@
+CustomEnchantments v1.0.4 更新日志
+====================================
+
+发布日期：2026-08-14
+
+一、附魔移除
+------------
+
+1. 移除隐身附魔 (invisibility)
+   - 删除 InvisibilityCloakEnchant.java 实现类
+   - 删除 enchantments.yml 中的配置条目
+   - 清理 ArmorEffectListener.java 中所有隐身相关逻辑代码
+     - 移除 invisiblePlayers 追踪集合
+     - 移除 invisibilityLevel 检测逻辑
+     - 移除隐身效果应用/恢复代码
+     - 移除 onPlayerJoin/onPlayerQuit 方法
+     - 移除 shutdown 中隐身恢复逻辑
+   - 更新 README.md 文档
+
+2. 移除传送打击附魔 (teleport_strike)
+   - 删除 TeleportStrikeEnchant.java 实现类
+   - 删除 enchantments.yml 中的配置条目
+   - 更新 README.md 文档
+
+二、其他变更
+------------
+
+3. 附魔总数从 45 种减少至 43 种
+   - 原有附魔：8 种 → 7 种
+   - 盔甲附魔：11 种 → 10 种
+
+4. 更新 Java 版本要求至 JDK 25
+   - pom.xml 中 Java 版本更新
+   - README.md 中文档同步更新
+
+5. 更新 Paper API 至 26.1.2
+   - plugin.yml 中 api-version 更新

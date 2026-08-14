@@ -86,18 +86,6 @@ enchantments:
       - CROSSBOW
     cooldown: 3
 
-  teleport_strike:
-    enabled: true
-    display-name: "&a传送打击"
-    max-level: 2
-    description:
-      - "&7击中时传送到目标附近"
-      - "&7等级越高, 传送距离越精确"
-    apply-to:
-      - SWORD
-      - AXE
-    cooldown: 5
-
   magnetic:
     enabled: true
     display-name: "&e磁力"
@@ -499,17 +487,6 @@ enchantments:
     apply-to:
       - BOOTS
     cooldown: 5
-
-  invisibility:
-    enabled: true
-    display-name: "&7隐身"
-    max-level: 1
-    description:
-      - "&7触发时获得隐身效果"
-      - "&7等级越高, 时间越长"
-    apply-to:
-      - HELMET
-    cooldown: 10
 
   experience_boost:
     enabled: true

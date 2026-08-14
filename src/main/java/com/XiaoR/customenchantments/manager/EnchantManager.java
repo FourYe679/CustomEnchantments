@@ -123,7 +123,6 @@ public class EnchantManager {
         registerEnchantment(new IceFreezeEnchant());
         registerEnchantment(new LifeStealEnchant());
         registerEnchantment(new ExplosionEnchant());
-        registerEnchantment(new TeleportStrikeEnchant());
         registerEnchantment(new MagneticEnchant());
         registerEnchantment(new PoisonBladeEnchant());
         registerEnchantment(new WitherTouchEnchant());
@@ -158,7 +157,6 @@ public class EnchantManager {
         registerEnchantment(new ResistanceArmorEnchant());
         registerEnchantment(new AquaAffinityPlusEnchant());
         registerEnchantment(new FeatherFallEnchant());
-        registerEnchantment(new InvisibilityCloakEnchant());
         registerEnchantment(new ExperienceBoostEnchant());
         registerEnchantment(new LootingMasterEnchant());
         registerEnchantment(new DurabilityBlessingEnchant());

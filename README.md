@@ -1,10 +1,10 @@
 # CustomEnchantments 自定义附魔插件
 
-Minecraft Paper 26.1.2 自定义附魔插件，包含 45 种自定义附魔、原版附魔等级突破、GUI 商店系统和铁砧合并增强。
+Minecraft Paper 26.1.2 自定义附魔插件，包含 43 种自定义附魔、原版附魔等级突破、GUI 商店系统和铁砧合并增强。
 
 ## 特性
 
-- **45 种自定义附魔**：覆盖近战武器、远程武器、工具、盔甲四大类别
+- **43 种自定义附魔**：覆盖近战武器、远程武器、工具、盔甲四大类别
 - **原版附魔等级突破**：最高可突破至 225 级
 - **铁砧合并增强**：原版附魔书可在铁砧中合并升级（如时运三+时运三=时运四）
 - **GUI 商店系统**：分类浏览、等级选择、金币购买、确认/取消流程
@@ -18,13 +18,13 @@ Minecraft Paper 26.1.2 自定义附魔插件，包含 45 种自定义附魔、�
 | 组件 | 版本 |
 |------|------|
 | Minecraft | 26.1.2（Paper） |
-| Java | 17 |
+| Java | 25 |
 | Paper API | 26.1.2.build.74-stable |
 | Vault | 1.7.1+（经济功能必需） |
 
 ## 安装
 
-1. 将 `CustomEnchantments-1.0.0.jar` 放入服务器的 `plugins` 目录
+1. 将 `CustomEnchantments-1.0.4.jar` 放入服务器的 `plugins` 目录
 2. 安装 [Vault](https://www.spigotmc.org/resources/vault.34315/) 插件（如需使用商店功能）
 3. 启动服务器，插件会自动生成配置文件
 4. 根据需要修改 `plugins/CustomEnchantments/config.yml` 等配置文件
@@ -60,7 +60,7 @@ Minecraft Paper 26.1.2 自定义附魔插件，包含 45 种自定义附魔、�
 
 ## 自定义附魔列表
 
-### 原有附魔（8 种）
+### 原有附魔（7 种）
 
 | 附魔 ID | 显示名称 | 最大等级 | 适用物品 | 冷却(秒) | 说明 |
 |---------|---------|---------|---------|---------|------|
@@ -70,7 +70,6 @@ Minecraft Paper 26.1.2 自定义附魔插件，包含 45 种自定义附魔、�
 | `ice_freeze` | 冰冻 | 10 | 剑/斧/弓/弩 | 3 | 击中时冻结目标 |
 | `life_steal` | 吸血 | 10 | 剑/斧/弓/弩 | 0 | 击中时回复生命 |
 | `explosion` | 爆炸 | 10 | 剑/斧/弓/弩 | 3 | 击中时产生爆炸 |
-| `teleport_strike` | 传送打击 | 5 | 剑/斧 | 5 | 击中时传送到目标附近 |
 | `magnetic` | 磁力 | 5 | 剑/斧/镐 | 0 | 击杀时自动拾取掉落物 |
 
 ### 近战武器附魔（12 种）
@@ -112,7 +111,7 @@ Minecraft Paper 26.1.2 自定义附魔插件，包含 45 种自定义附魔、�
 | `excavator` | 挖掘者 | 5 | 镐/锹 | 1 | 范围挖掘 3x3 |
 | `replant` | 自动补种 | 5 | 锄 | 0 | 收割后自动种植（消耗背包种子） |
 
-### 盔甲附魔（11 种）
+### 盔甲附魔（10 种）
 
 | 附魔 ID | 显示名称 | 最大等级 | 适用物品 | 冷却(秒) | 说明 |
 |---------|---------|---------|---------|---------|------|
@@ -125,7 +124,6 @@ Minecraft Paper 26.1.2 自定义附魔插件，包含 45 种自定义附魔、�
 | `resistance` | 抗性 | 5 | 胸甲 | 0 | 穿戴时减少伤害 |
 | `aqua_affinity` | 深海亲和 | 5 | 头盔 | 0 | 水下呼吸和快速挖掘 |
 | `feather_fall` | 羽落 | 5 | 靴子 | 5 | 触发时获得缓降 |
-| `invisibility` | 隐身 | 5 | 头盔 | 10 | 触发时获得隐身 |
 | `experience_boost` | 经验增幅 | 5 | 剑/斧/镐 | 0 | 获得更多经验 |
 
 ### 通用附魔（2 种）
@@ -236,7 +234,7 @@ CustomEnchantments/
 │   ├── CustomEnchantments.java       # 主类
 │   ├── enchantments/
 │   │   ├── CustomEnchantment.java    # 附魔基类
-│   │   └── impl/                     # 45 个附魔实现
+│   │   └── impl/                     # 43 个附魔实现
 │   ├── gui/                          # GUI 系统
 │   │   ├── EnchantGUI.java           # 主 GUI
 │   │   ├── EnchantCategoryGUI.java   # 分类 GUI
@@ -266,11 +264,11 @@ CustomEnchantments/
 ## 编译
 
 ```bash
-# 需要 JDK 17-25
+# 需要 JDK 25
 mvn clean package -DskipTests
 ```
 
-生成的 JAR 包位于 `target/CustomEnchantments-1.0.0.jar`。
+生成的 JAR 包位于 `target/CustomEnchantments-1.0.4.jar`。
 
 ## 技术说明
 
@@ -278,10 +276,16 @@ mvn clean package -DskipTests
 - **事件驱动**：所有附魔效果通过 Bukkit 事件触发，性能高效
 - **内存管理**：玩家退出时自动清理冷却数据，防止内存泄漏
 - **任务调度**：所有延时任务正确注册和取消，避免内存泄漏
-- **兼容性**：基于 Paper API 26.1.2 开发，使用 ProtocolLib 进行协议级操作
+- **兼容性**：基于 Paper API 26.1.2 开发
 
 ## 版本历史
 
+- **1.0.4**：移除隐身与传送打击附魔
+  - 移除 `invisibility`（隐身）附魔：删除配置、效果逻辑及文档
+  - 移除 `teleport_strike`（传送打击）附魔：删除配置及文档
+  - 附魔总数从 45 种减少至 43 种
+  - 更新 Java 版本要求至 25
+  - 清理 ArmorEffectListener 中所有隐身相关代码
 - **1.0.0**：初始版本
   - 45 种自定义附魔
   - 原版附魔等级突破（最高 225）

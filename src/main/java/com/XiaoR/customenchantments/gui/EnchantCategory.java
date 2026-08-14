@@ -23,10 +23,6 @@ public enum EnchantCategory {
         this.color = color;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
     public String getDisplayName(LanguageManager lang) {
         return lang.getGuiMessage("categories", name().toLowerCase());
     }

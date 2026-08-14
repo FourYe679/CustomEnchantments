@@ -13,8 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -29,8 +27,6 @@ public class ArmorEffectListener implements Listener {
     private final CooldownManager cooldownManager;
     private BukkitTask armorCheckTask;
     private final Set<UUID> processingDamage = ConcurrentHashMap.newKeySet();
-    // Tracks players who currently have the invisibility enchant active (hidden from others)
-    private final Set<UUID> invisiblePlayers = ConcurrentHashMap.newKeySet();
     public ArmorEffectListener(CustomEnchantments plugin) {
         this.plugin = plugin;
         this.enchantManager = plugin.getEnchantManager();
@@ -56,7 +52,6 @@ public class ArmorEffectListener implements Listener {
         int resistanceLevel = 0;
         int aquaAffinityLevel = 0;
         int featherFallLevel = 0;
-        int invisibilityLevel = 0;
         int moltenLevel = 0;
         int thornsLevel = 0;
         ItemStack[] armorContents = player.getInventory().getArmorContents();
@@ -91,10 +86,6 @@ public class ArmorEffectListener implements Listener {
             if (enchants.containsKey("feather_fall")) {
                 int lvl = enchants.get("feather_fall");
                 if (lvl > featherFallLevel) featherFallLevel = lvl;
-            }
-            if (enchants.containsKey("invisibility")) {
-                int lvl = enchants.get("invisibility");
-                if (lvl > invisibilityLevel) invisibilityLevel = lvl;
             }
             if (enchants.containsKey("molten_armor")) {
                 int lvl = enchants.get("molten_armor");
@@ -142,35 +133,6 @@ public class ArmorEffectListener implements Listener {
                 int duration = featherFallLevel * 200;
                 int slowFallAmplifier = Math.min(featherFallLevel - 1, 4);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, duration, slowFallAmplifier, false, false));
-            }
-        }
-        if (invisibilityLevel > 0) {
-            int duration = invisibilityLevel * 200;
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, duration, 0, false, false));
-            // setInvisible hides the body; hidePlayer hides armor + held items from other players
-            player.setInvisible(true);
-            // Only transition to hidden once (avoid re-sending packets every 10 ticks)
-            if (!invisiblePlayers.contains(player.getUniqueId())) {
-                invisiblePlayers.add(player.getUniqueId());
-                for (Player other : Bukkit.getOnlinePlayers()) {
-                    if (other != player && other.canSee(player)) {
-                        other.hidePlayer(plugin, player);
-                    }
-                }
-            }
-            if (invisibilityLevel >= 2) {
-                int speedAmplifier = Math.min(invisibilityLevel - 2, 3);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, speedAmplifier, false, false));
-            }
-        } else {
-            // Restore full visibility when enchant is no longer active
-            player.setInvisible(false);
-            if (invisiblePlayers.remove(player.getUniqueId())) {
-                for (Player other : Bukkit.getOnlinePlayers()) {
-                    if (other != player) {
-                        other.showPlayer(plugin, player);
-                    }
-                }
             }
         }
     }
@@ -278,41 +240,10 @@ public class ArmorEffectListener implements Listener {
         return totalLevel;
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        // Hide all currently-invisible players from the newcomer
-        Player joined = event.getPlayer();
-        for (UUID invUuid : invisiblePlayers) {
-            Player invisible = Bukkit.getPlayer(invUuid);
-            if (invisible != null && invisible != joined && joined.canSee(invisible)) {
-                joined.hidePlayer(plugin, invisible);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        // Remove from tracking; visibility will be re-evaluated when they rejoin
-        invisiblePlayers.remove(event.getPlayer().getUniqueId());
-    }
-
     public void shutdown() {
         if (armorCheckTask != null) {
             armorCheckTask.cancel();
             armorCheckTask = null;
         }
-        // Restore visibility for all players who were hidden by the invisibility enchant
-        for (UUID invUuid : invisiblePlayers) {
-            Player invisible = Bukkit.getPlayer(invUuid);
-            if (invisible != null) {
-                invisible.setInvisible(false);
-                for (Player other : Bukkit.getOnlinePlayers()) {
-                    if (other != invisible) {
-                        other.showPlayer(plugin, invisible);
-                    }
-                }
-            }
-        }
-        invisiblePlayers.clear();
     }
 }

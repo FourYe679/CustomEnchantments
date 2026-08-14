@@ -1,9 +1,11 @@
 package com.XiaoR.customenchantments.enchantments.impl;
+
 import com.XiaoR.customenchantments.enchantments.CustomEnchantment;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
 public class SoulReapEnchant extends CustomEnchantment {
     public SoulReapEnchant() {
         super("soul_reap");
