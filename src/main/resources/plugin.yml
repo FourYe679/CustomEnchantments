@@ -1,5 +1,5 @@
 name: CustomEnchantments
-version: '1.0.4'
+version: '1.0.5'
 main: com.XiaoR.customenchantments.CustomEnchantments
 api-version: '26.1.2'
 description: 自定义附魔插件 - 包含自定义附魔和原版附魔等级修改

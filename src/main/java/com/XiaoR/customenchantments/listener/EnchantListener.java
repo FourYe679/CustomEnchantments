@@ -43,14 +43,15 @@ public class EnchantListener implements Listener {
     private static final Set<String> EQUIPMENT_SUFFIXES = Set.of(
             "_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS",
             "_SWORD", "_PICKAXE", "_SHOVEL", "_HOE", "_AXE",
-            "_HORSE_ARMOR"
+            "_HORSE_ARMOR", "_SHULKER_BOX"
     );
     // Standalone equipment materials not caught by suffix matching
     private static final Set<Material> EQUIPMENT_MATERIALS = Set.of(
             Material.BOW, Material.CROSSBOW, Material.TRIDENT,
             Material.SHIELD, Material.ELYTRA, Material.FISHING_ROD,
             Material.SHEARS, Material.FLINT_AND_STEEL,
-            Material.SADDLE, Material.ENCHANTED_BOOK
+            Material.SADDLE, Material.ENCHANTED_BOOK,
+            Material.BUNDLE
     );
 
     public EnchantListener(CustomEnchantments plugin) {
