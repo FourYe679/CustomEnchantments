@@ -51,7 +51,7 @@ public class EnchantListener implements Listener {
             Material.SHIELD, Material.ELYTRA, Material.FISHING_ROD,
             Material.SHEARS, Material.FLINT_AND_STEEL,
             Material.SADDLE, Material.ENCHANTED_BOOK,
-            Material.BUNDLE
+            Material.BUNDLE, Material.SHULKER_BOX
     );
 
     public EnchantListener(CustomEnchantments plugin) {
