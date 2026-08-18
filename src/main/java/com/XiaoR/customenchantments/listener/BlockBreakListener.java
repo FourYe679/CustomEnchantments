@@ -4,6 +4,7 @@ import com.XiaoR.customenchantments.CustomEnchantments;
 import com.XiaoR.customenchantments.enchantments.CustomEnchantment;
 import com.XiaoR.customenchantments.manager.CooldownManager;
 import com.XiaoR.customenchantments.manager.EnchantManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -15,6 +16,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
@@ -30,6 +32,7 @@ public class BlockBreakListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        if (player.hasMetadata("excavatorBreak")) return;
         Block block = event.getBlock();
         ItemStack item = player.getInventory().getItemInMainHand();
         if (item == null || item.getType().isAir()) return;
@@ -231,28 +234,37 @@ public class BlockBreakListener implements Listener {
         if (hasExcavator && !player.isSneaking()) {
             int excavatorLevel = enchants.getOrDefault("excavator", 1);
             int radius = excavatorLevel >= 3 ? 2 : 1;
+            player.setMetadata("excavatorBreak", new FixedMetadataValue(plugin, true));
             for (int x = -radius; x <= radius; x++) {
                 for (int y = -radius; y <= radius; y++) {
                     for (int z = -radius; z <= radius; z++) {
                         if (x == 0 && y == 0 && z == 0) continue;
                         Block target = block.getRelative(x, y, z);
-                        if (target.getType() != Material.AIR && !target.getType().name().endsWith("BEDROCK")) {
-                            final Material brokenType = target.getType();
-                            Block t = target;
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
+                        Material targetType = target.getType();
+                        if (targetType == Material.AIR || targetType.name().endsWith("BEDROCK")) continue;
+                        if (isContainerBlock(targetType)) continue;
+                        if (isSignBlock(targetType)) continue;
+                        BlockBreakEvent breakEvent = new BlockBreakEvent(target, player);
+                        Bukkit.getPluginManager().callEvent(breakEvent);
+                        if (breakEvent.isCancelled()) continue;
+                        final Material brokenType = targetType;
+                        Block t = target;
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if (t.getType() != Material.AIR) {
                                     t.breakNaturally(item);
                                 }
-                            }.runTask(plugin);
-                            int exp = getBlockExp(brokenType);
-                            if (exp > 0) {
-                                player.giveExp(exp);
                             }
+                        }.runTask(plugin);
+                        int exp = getBlockExp(brokenType);
+                        if (exp > 0) {
+                            player.giveExp(exp);
                         }
                     }
                 }
             }
+            player.removeMetadata("excavatorBreak", plugin);
         }
         if (hasReplant) {
             Material cropType = block.getType();
@@ -346,6 +358,10 @@ public class BlockBreakListener implements Listener {
                 || name.equals("BREWING_STAND") || name.equals("LECTERN")
                 || name.equals("CHISELED_BOOKSHELF") || name.equals("DECORATED_POT")
                 || name.equals("CRAFTER") || name.equals("BUNDLE");
+    }
+
+    private boolean isSignBlock(Material material) {
+        return material.name().endsWith("_SIGN");
     }
 
     private boolean isOre(Material material) {
